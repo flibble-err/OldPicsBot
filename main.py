@@ -4,6 +4,7 @@ import tweepy
 from authfld import keys
 import pics
 import cv2
+import hashtagmaker as ht
 
 
 def api():
@@ -35,6 +36,17 @@ def formatDesc(path:str):
     if desc[1] == desc[2]:
         desc[1] = ''
     return desc
+
+def addHashtags(desc:str):
+    tags=ht.craftHashtags(desc, keys.bearer_token)
+    desc=desc+"\n"
+    n=0
+    while n<len(tags) and len(desc+tags[n][0])<280:
+        wtag=tags[n][0]
+        if f"#{wtag}" not in desc:
+            desc=desc+f"#{wtag} "
+        n=n+1
+
 
 
 if __name__ == '__main__':
