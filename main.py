@@ -4,10 +4,11 @@ import tweepy
 from authfld import keys
 import pics
 import cv2
+
+
 def api():
     auth=tweepy.OAuthHandler(keys.api_key, keys.api_secret)
     auth.set_access_token(keys.access_token, keys.access_token_secret)
-
     return tweepy.API(auth)
 
 def tweetforme(api:tweepy.API, msg:str, img_path:str, picid:str):
@@ -15,8 +16,6 @@ def tweetforme(api:tweepy.API, msg:str, img_path:str, picid:str):
     maintweet = api.update_status(msg, media_ids=[pic.media_id_string])
     time.sleep(2)
     api.update_status(f"https://digitalcollections.iu.edu/concern/images/{picid}", in_reply_to_status_id=maintweet.id)
-
-
 
 def formatDesc(path:str):
     desc = []
@@ -40,10 +39,7 @@ def formatDesc(path:str):
 
 if __name__ == '__main__':
     api=api()
-
-    pic = pics.randCushman()
-    picid = pic[0]
-    picurl = pic[1] 
+    picid, picurl = pics.randCushman()
     pic=cv2.imread(f'dl/{picid}.jp2')
     cv2.imwrite(f'dl/{picid}.jpeg', pic)
 
@@ -54,7 +50,6 @@ if __name__ == '__main__':
 {desc[1]}{desc[2]} {desc[3]}
 {desc[5]}
 """
-
     print(tweetbody)
     tweetforme(api,tweetbody, f"dl/{picid}.jpeg", picurl)
 
