@@ -45,12 +45,6 @@ def addHashtags(desc:str):
         if f"#{wtag}" not in desc:
             desc=desc+f"#{wtag} "
         n=n+1
-
-    desc=desc+'\n'
-    
-    while n<len(tags):
-        desc=desc+f"{tags[n][0]}({tags[n][1]}) "
-        n=n+1
     
     return desc
 
