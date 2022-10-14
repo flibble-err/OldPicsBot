@@ -39,13 +39,20 @@ def formatDesc(path:str):
 
 def addHashtags(desc:str):
     tags=ht.craftHashtags(desc, keys.bearer_token)
-    desc=desc+"\n"
     n=0
-    while n<len(tags) and len(desc+tags[n][0])<280:
+    while n<len(tags) and len(desc+tags[n][0])<280 and tags[n][1] >1000:
         wtag=tags[n][0]
         if f"#{wtag}" not in desc:
             desc=desc+f"#{wtag} "
         n=n+1
+
+    desc=desc+'\n'
+    
+    while n<len(tags):
+        desc=desc+f"{tags[n][0]}({tags[n][1]}) "
+        n=n+1
+    
+    return desc
 
 
 
@@ -63,7 +70,9 @@ if __name__ == '__main__':
 {desc[5]}
 """
     print(tweetbody)
+    tweetbody = addHashtags(tweetbody)
     tweetforme(api,tweetbody, f"dl/{picid}.jpeg", picurl)
+    print(tweetbody)
 
     os.remove(f"dl/{picid}.jpeg")
     os.remove(f"dl/{picid}.jp2")
