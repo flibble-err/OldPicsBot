@@ -129,3 +129,5 @@ dmypy.json
 
 keys.py
 dl/
+test.py
+images.list
